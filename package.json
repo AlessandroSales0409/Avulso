@@ -1,0 +1,27 @@
+{
+  "name": "avulso",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlessandroSales0409/Avulso.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/AlessandroSales0409/Avulso/issues"
+  },
+  "homepage": "https://github.com/AlessandroSales0409/Avulso#readme",
+  "dependencies": {
+    "@google/genai": "^3.0.0",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0"
+  }
+}
