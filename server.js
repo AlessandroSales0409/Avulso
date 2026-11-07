@@ -15,7 +15,7 @@ const PORTA = 3000;
 
 // Se der "model not found", troque só esta linha por um nome da lista:
 // https://ai.google.dev/gemini-api/docs/models
-const MODELO = "gemini-3.7-flash";
+const MODELO = "gemini-3.5-flash-lite";
 
 if (!process.env.GEMINI_API_KEY) {
   console.warn("\n⚠️  GEMINI_API_KEY não encontrada! Crie o arquivo .env com a sua chave.\n");
@@ -95,6 +95,29 @@ function executarFerramenta(chamada) {
   return { sucesso: false, aviso: `Ferramenta inexistente: ${chamada.name}` };
 }
 
+// Chama o Gemini e tenta de novo (até 3 vezes) se ele estiver ocupado.
+async function chamarGemini(historico, tentativas = 3) {
+  for (let i = 1; i <= tentativas; i++) {
+    try {
+      return await ai.models.generateContent({
+        model: MODELO,
+        contents: historico,
+        config: {
+          systemInstruction: INSTRUCAO_DE_SISTEMA,
+          tools: [{ functionDeclarations: FERRAMENTAS }],
+        },
+      });
+    } catch (erro) {
+      const ocupado =
+        erro?.status === 503 ||
+        erro?.status === 429 ||
+        /UNAVAILABLE|high demand/i.test(erro?.message || "");
+      if (!ocupado || i === tentativas) throw erro;
+      await new Promise((r) => setTimeout(r, i * 1500)); // espera e tenta de novo
+    }
+  }
+}
+
 // ---------- 5) ROTA DO CHAT: POST /api/chat ----------
 app.post("/api/chat", async (req, res) => {
   const { mensagem, sessionId } = req.body;
@@ -118,14 +141,7 @@ app.post("/api/chat", async (req, res) => {
 
     // Até 3 voltas: pergunta → (talvez ferramenta) → resposta final.
     for (let volta = 1; volta <= 3; volta++) {
-      const resposta = await ai.models.generateContent({
-        model: MODELO,
-        contents: historico,
-        config: {
-          systemInstruction: INSTRUCAO_DE_SISTEMA,
-          tools: [{ functionDeclarations: FERRAMENTAS }],
-        },
-      });
+            const resposta = await chamarGemini(historico);
 
       const conteudo = resposta.candidates?.[0]?.content;
       if (conteudo) historico.push(conteudo);
