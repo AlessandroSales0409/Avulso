@@ -140,3 +140,33 @@ ul {
     font-size: 1.2rem;
     color: var(--cor-texto-suave);
 }
+
+/* PARTE 3: seção sobre (cards com FLEX) */
+
+.texto-sobre {
+   max-width: 700px;
+   margin-bottom: 40px;
+   color: var(--cor-texto-suave);
+}
+
+.lista-beneficios {
+   display: flex;
+   gap: 20px;
+}
+
+.cartao-beneficio {
+   flex: 1;
+   padding: 24px;
+   background-color: var(--cor-fundo-card);
+   border-radius: var(--raio-borda);
+   border-top: 4px solid var(--cor-destaque);
+}
+
+.cartao-beneficio h3 {
+   margin-bottom: 8px;
+}
+
+.cartao-beneficio p {
+   color: var(--cor-texto-suave)
+}
+
