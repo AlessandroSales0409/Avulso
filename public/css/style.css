@@ -14,34 +14,34 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
- }
+}
 
  html {
     scroll-behavior: smooth;
- }
+}
 
- body {
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
     line-height: 1.6;
- }
+}
 
  a {
     color: inherit;
     text-decoration: none;
- }
+}
 
- ul {
+ul {
     list-style: none;
- }
+}
 
  img {
     max-width: 100%;
     display: block;
- }
+}
 
- .cabecalho {
+.cabecalho {
     position: sticky;
     top: 0;
     z-index: 10;
@@ -51,29 +51,92 @@
     padding: 16px 40px;
     background-color: #000000;
     border-bottom: 2px solid var(--cor-destaque);
- }
+}
 
- .logo {
+.logo {
     font-size: 1.8rem;
     font-weight: 900;
     letter-spacing: 4px;
     color: var(--cor-destaque)
- }
+}
 
- .menu ul {
+.menu ul {
     display: flex;
     gap: 24px;
- }
+}
 
- .menu a{
+.menu a{
     font-weight: bold;
     font-size: 0.9rem;
     text-transform: uppercase;
     padding-bottom: 4px;
     border-bottom: 2px solid transparent;
- }
+}
 
- .menu a:hover {
+.menu a:hover {
     color: var(--cor-destaque);
     border-bottom-color: var(--cor-destaque);
- }
+}
+
+/* PARTE 2: seções, botão e banner */
+
+.secao {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    scroll-margin-top: 80px;
+}
+
+.secao h2 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.secao h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin-top: 8px;
+    background-color: var(--cor-destaque);
+}
+
+.botao {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: var(--cor-destaque);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--raio-borda);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.botao:hover {
+    background-color: var(--cor-destaque-escura);
+}
+
+.secao-inicio {
+    max-width: none;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.85)), #222222;
+}
+
+.secao-inicio h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+
+.secao-inicio p {
+    margin: 12px 0 24px;
+    font-size: 1.2rem;
+    color: var(--cor-texto-suave);
+}
