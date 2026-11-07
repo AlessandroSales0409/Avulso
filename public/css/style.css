@@ -220,3 +220,50 @@ ul {
    text-align: center;
 }
 
+/* PARTE 5: formulário */
+
+.formulario {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   max-width: 600px;
+   margin-top: 20px;
+}
+
+.formulario label {
+   margin-top: 8px;
+   font-weight: bold;
+}
+
+.formulario input,
+.formulario select,
+.formulario textoarea {
+   padding: 12px;
+   background-color: var(--cor-fundo-card);
+   color: var(--cor-texto);
+   border: 1px solid #444444;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-family: inherit;
+}
+
+.formulario input:focus,
+.formulario select:focus,
+.formulario textarea:focus {
+   outline: none;
+   border-color: var(--cor-destaque);
+}
+
+.formulario .botao {
+   margin-top: 16px;
+}
+
+#mensagem-retorno {
+   margin-top: 12px;
+   font-weight: bold;
+   color: #4cd964;
+}
+
+#mensagem-retorno.erro {
+   color: #ff4d4d;
+}
