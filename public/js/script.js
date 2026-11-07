@@ -38,3 +38,16 @@ formulario.addEventListener("submit", function (evento) {
   );
   formulario.reset();
 });
+
+// Botões "Tenho interesse": preenchem o formulário com o produto escolhido.
+const botoesInteresse = document.querySelectorAll(".cartao-produto .botao");
+
+botoesInteresse.forEach(function (botao) {
+  botao.addEventListener("click", function () {
+    const cartao = botao.closest(".cartao-produto");
+    const produto = cartao.querySelector("h3").textContent;
+
+    campoAssunto.value = "pedido";
+    campoMensagem.value = "Tenho interesse no produto: " + produto + ".";
+  });
+});
