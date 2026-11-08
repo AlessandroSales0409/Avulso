@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import { GoogleGenAI, Type } from "@google/genai";
 import { PERSONA, CONHECIMENTO, REGRAS } from "./persona.js";
+import crypto from "crypto";
 
 dotenv.config({ quiet: true });
 
@@ -74,26 +75,62 @@ const FERRAMENTAS = [
 
 const ARQUIVO_PEDIDOS = "pedidos.json";
 
+// Gera um código fácil de ler, tipo AV-7K3F9Q.
+function gerarCodigo() {
+  const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let codigo = "AV-";
+  for (let i = 0; i < 6; i++) codigo += letras[crypto.randomInt(letras.length)];
+  return codigo;
+}
+
+function lerPedidos() {
+  try {
+    return JSON.parse(fs.readFileSync(ARQUIVO_PEDIDOS, "utf-8"));
+  } catch (e) {
+    return [];
+  }
+}
+
+// Salva um pedido (do formulário ou do Kai) e devolve com o código.
+function salvarPedido(dados) {
+  const pedidos = lerPedidos();
+  const novo = { codigo: gerarCodigo(), ...dados, data: new Date().toLocaleString("pt-BR") };
+  pedidos.push(novo);
+  fs.writeFileSync(ARQUIVO_PEDIDOS, JSON.stringify(pedidos, null, 2));
+  console.log("📥 NOVO PEDIDO:", novo);
+  return novo;
+}
+
 function executarFerramenta(chamada) {
   if (chamada.name === "registrar_pedido") {
-    let pedidos = [];
-    try {
-      pedidos = JSON.parse(fs.readFileSync(ARQUIVO_PEDIDOS, "utf-8"));
-    } catch (e) {
-      pedidos = [];
-    }
-
-    const novo = { ...chamada.args, data: new Date().toLocaleString("pt-BR") };
-    pedidos.push(novo);
-
-    fs.writeFileSync(ARQUIVO_PEDIDOS, JSON.stringify(pedidos, null, 2));
-    console.log("📥 NOVO PEDIDO:", novo);
-
-    return { sucesso: true, numero_do_pedido: pedidos.length };
+    const novo = salvarPedido(chamada.args);
+    return { sucesso: true, codigo_do_pedido: novo.codigo };
   }
-
   return { sucesso: false, aviso: `Ferramenta inexistente: ${chamada.name}` };
 }
+
+// Formulário do site: registra o pedido e devolve o código.
+app.post("/api/pedidos", (req, res) => {
+  const { nome, email, telefone, pedido } = req.body;
+  if (!nome?.trim() || !pedido?.trim()) {
+    return res.status(400).json({ erro: "Dados incompletos." });
+  }
+  const novo = salvarPedido({
+    nome: nome.trim(),
+    email: email?.trim() || "",
+    telefone: telefone?.trim() || "",
+    pedido: pedido.trim(),
+  });
+  res.json({ codigo: novo.codigo });
+});
+
+// Meus pedidos: consulta pelo código.
+app.get("/api/pedidos/:codigo", (req, res) => {
+  const codigo = req.params.codigo.trim().toUpperCase();
+  const pedido = lerPedidos().find((p) => p.codigo === codigo);
+  if (!pedido) return res.status(404).json({ erro: "Pedido não encontrado." });
+  res.json(pedido);
+});
 
 // Chama o Gemini e tenta de novo (até 3 vezes) se ele estiver ocupado.
 async function chamarGemini(historico, tentativas = 3) {
