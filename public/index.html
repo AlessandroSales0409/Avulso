@@ -119,18 +119,25 @@
             </div>
         </section>
 
-                <!-- SEÇÃO MEUS PEDIDOS -->
+                     <!-- SEÇÃO MEUS PEDIDOS -->
         <section id="pedidos" class="secao">
             <h2>Meus pedidos</h2>
-            <p>Fez um pedido pelo chat com o Kai? Digite o código que ele te passou para acompanhar.</p>
+            <p>Digite o código do seu pedido para acompanhar os detalhes.</p>
 
             <form id="formulario-pedido" class="formulario">
                 <label for="codigo-pedido">Código do pedido</label>
-                <input type="text" id="codigo-pedido" name="codigo-pedido" placeholder="Ex.: AV-7K2M9Q" required>
+
+                <input
+                    type="text"
+                    id="codigo-pedido"
+                    name="codigo-pedido"
+                    placeholder="Ex.: AV-7K2M9Q"
+                    required
+                >
 
                 <button type="submit" class="botao">Consultar pedido</button>
 
-                <div id="resultado-pedido"></div>
+                <div id="resultado-pedido" aria-live="polite"></div>
             </form>
         </section>
 
