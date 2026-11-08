@@ -270,6 +270,25 @@ ul {
    color: #ff4d4d;
 }
 
+/* Meus pedidos */
+#resultado-pedido {
+    margin-top: 12px;
+    white-space: pre-line;
+    font-weight: bold;
+}
+
+#resultado-pedido.pedido-encontrado {
+    padding: 16px;
+    background-color: var(--cor-fundo-card);
+    border-left: 4px solid var(--cor-destaque);
+    border-radius: var(--raio-borda);
+    color: var(--cor-texto);
+}
+
+#resultado-pedido.pedido-erro {
+    color: #ff4d4d;
+}
+
 /* PARTE 6: rodapé e janela do chat */
 
 .rodape {
