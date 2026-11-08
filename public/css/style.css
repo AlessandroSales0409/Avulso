@@ -46,9 +46,10 @@ ul {
     top: 0;
     z-index: 10;
     display: flex;
-    justify-content: space-between;
+    justify-content: column; 
     align-items: center;
-    padding: 16px 40px;
+    gap: 8px;
+    padding: 12px 40px;
     background-color: #000000;
     border-bottom: 2px solid var(--cor-destaque);
 }
@@ -62,6 +63,7 @@ ul {
 
 .menu ul {
     display: flex;
+    justify-content: center;
     gap: 24px;
 }
 
@@ -84,7 +86,7 @@ ul {
     max-width: 1100px;
     margin: 0 auto;
     padding: 80px 40px;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 120px;
 }
 
 .secao h2 {

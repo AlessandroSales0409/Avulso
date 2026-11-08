@@ -16,6 +16,7 @@
             <ul>
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#pedidos">Meus pedidos</a></li>
                 <li><a href="#produtos">Produtos</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
@@ -116,6 +117,21 @@
                 </article>
 
             </div>
+        </section>
+
+                <!-- SEÇÃO MEUS PEDIDOS -->
+        <section id="pedidos" class="secao">
+            <h2>Meus pedidos</h2>
+            <p>Fez um pedido pelo chat com o Kai? Digite o código que ele te passou para acompanhar.</p>
+
+            <form id="formulario-pedido" class="formulario">
+                <label for="codigo-pedido">Código do pedido</label>
+                <input type="text" id="codigo-pedido" name="codigo-pedido" placeholder="Ex.: AV-7K2M9Q" required>
+
+                <button type="submit" class="botao">Consultar pedido</button>
+
+                <div id="resultado-pedido"></div>
+            </form>
         </section>
 
          <!-- SEÇÃO CONTATO -->
