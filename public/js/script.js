@@ -13,8 +13,7 @@ function mostrarRetorno(texto, tipo) {
   retorno.className = tipo;
 }
 
-formulario.addEventListener("submit", function (evento) {
-  // Impede a página de recarregar ao enviar.
+formulario.addEventListener("submit", async function (evento) {
   evento.preventDefault();
 
   const nome = campoNome.value.trim();
@@ -32,11 +31,31 @@ formulario.addEventListener("submit", function (evento) {
     return;
   }
 
-  mostrarRetorno(
-    "Valeu, " + nome + "! Recebemos sua mensagem e vamos responder em " + email + ".",
-    "sucesso"
-  );
-  formulario.reset();
+  // Só pedidos geram código. Dúvidas e trocas só confirmam o recebimento.
+  if (assunto !== "pedido") {
+    mostrarRetorno("Valeu, " + nome + "! Recebemos sua mensagem.", "sucesso");
+    formulario.reset();
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/api/pedidos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome: nome, email: email, pedido: mensagem }),
+    });
+    const dados = await resposta.json();
+    if (!resposta.ok) throw new Error(dados.erro || "Erro " + resposta.status);
+
+    mostrarRetorno(
+      "Pedido registrado, " + nome + "! Seu código é " + dados.codigo +
+        ". Guarde ele para consultar em Meus pedidos.",
+      "sucesso"
+    );
+    formulario.reset();
+  } catch (erro) {
+    mostrarRetorno("Não foi possível registrar o pedido agora. (" + erro.message + ")", "erro");
+  }
 });
 
 // Botões "Tenho interesse": preenchem o formulário com o produto escolhido.
