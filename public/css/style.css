@@ -57,7 +57,7 @@ ul {
     font-size: 1.8rem;
     font-weight: 900;
     letter-spacing: 4px;
-    color: var(--cor-destaque)
+    color: var(--cor-destaque);
 }
 
 .menu ul {
@@ -167,7 +167,7 @@ ul {
 }
 
 .cartao-beneficio p {
-   color: var(--cor-texto-suave)
+   color: var(--cor-texto-suave);
 }
 
 /* PARTE 4: produtos (cards com GRID) */
@@ -237,7 +237,7 @@ ul {
 
 .formulario input,
 .formulario select,
-.formulario textoarea {
+.formulario textarea {
    padding: 12px;
    background-color: var(--cor-fundo-card);
    color: var(--cor-texto);
@@ -342,12 +342,13 @@ ul {
 
 #botao-fechar-chat {
    background: none;
+   border: none;
    color: #ffffff;
    font-size: 1.1rem;
    cursor: pointer;
 }
 
-#chat-mensagem {
+#chat-mensagems {
    flex: 1;
    display: flex;
    flex-direction: column;
