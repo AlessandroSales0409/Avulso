@@ -70,3 +70,71 @@ botoesInteresse.forEach(function (botao) {
     campoMensagem.value = "Tenho interesse no produto: " + produto + ".";
   });
 });
+
+// ---------- Meus pedidos: consulta pelo código ----------
+const formularioPedidos = document.getElementById("formulario-pedido");
+const campoCodigo = document.getElementById("codigo-pedido");
+const resultadoPedido = document.getElementById("resultado-pedido");
+
+// Mostra uma mensagem simples no resultado. tipo = "sucesso" ou "erro".
+function mostrarAviso(texto, tipo) {
+  resultadoPedido.replaceChildren();
+  resultadoPedido.className = tipo;
+  const paragrafo = document.createElement("p");
+  paragrafo.textContent = texto;
+  resultadoPedido.appendChild(paragrafo);
+}
+
+// Mostra os dados do pedido encontrado.
+function mostrarPedido(pedido) {
+  resultadoPedido.replaceChildren();
+  resultadoPedido.className = "sucesso";
+
+  const linhas = [
+    ["Código", pedido.codigo],
+    ["Nome", pedido.nome],
+    ["Pedido", pedido.pedido],
+    ["Data", pedido.data],
+  ];
+
+  linhas.forEach(function (linha) {
+    const paragrafo = document.createElement("p");
+    const rotulo = document.createElement("strong");
+    rotulo.textContent = linha[0] + ": ";
+    paragrafo.appendChild(rotulo);
+    // textContent mostra texto puro, sem executar HTML digitado por alguém.
+    paragrafo.appendChild(document.createTextNode(linha[1] || "-"));
+    resultadoPedido.appendChild(paragrafo);
+  });
+}
+
+if (formularioPedidos) {
+  formularioPedidos.addEventListener("submit", async function (evento) {
+    // Impede a página de recarregar ou ir para outro lugar.
+    evento.preventDefault();
+
+    const codigo = campoCodigo.value.trim().toUpperCase();
+    if (codigo === "") {
+      mostrarAviso("Digite o código do pedido.", "erro");
+      return;
+    }
+
+    mostrarAviso("Buscando seu pedido...", "sucesso");
+
+    try {
+      const resposta = await fetch("/api/pedidos/" + encodeURIComponent(codigo));
+
+      if (resposta.status === 404) {
+        mostrarAviso("Não encontramos nenhum pedido com esse código. Confira se digitou certo.", "erro");
+        return;
+      }
+
+      const dados = await resposta.json();
+      if (!resposta.ok) throw new Error(dados.erro || "Erro " + resposta.status);
+
+      mostrarPedido(dados);
+    } catch (erro) {
+      mostrarAviso("Não foi possível consultar agora. (" + erro.message + ")", "erro");
+    }
+  });
+}
