@@ -5,7 +5,7 @@ Site de uma loja fictícia de roupas urbanas (streetwear), feito como trabalho d
 ## Integrantes
 
 - Alessandro Sales de Morais Lopes (GitHub: AlessandroSales0409)
-- João Gabriel [COMPLETAR] (GitHub: joaogabo2026)
+- João Gabriel de Oliveira Silva Gramos (GitHub: joaogabo2026)
 
 **Divisão do trabalho:**
 - Alessandro: HTML, CSS e README.
