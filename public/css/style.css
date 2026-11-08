@@ -408,3 +408,46 @@ ul {
    cursor: pointer;
 }
 
+/* PARTE 7: responsividade */
+
+@media (max-width: 900px) {
+   .grade-produtos {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+@media (max-width: 700px) {
+   .cabecalho {
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 20px;
+   }
+
+   .menu ul {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+   }
+
+   .secao {
+      padding: 50px 20px;
+      scroll-margin-top: 130px;
+   }
+
+   .secao-inicio h1 {
+      font-size: 2rem;
+   }
+
+   .lista-beneficios {
+      flex-direction: column;
+   }
+
+   .grade-produtos {
+      grid-template-columns: 1fr;
+   }
+
+   #janela-chat {
+      width: calc(100vw - 40px);
+      height: 70vh;
+   }
+}
